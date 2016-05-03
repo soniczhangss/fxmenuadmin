@@ -1,2 +1,6 @@
 @import "settings";
 @import "foundation";
+
+.my-active-class {
+	background-color: $titlebar-background;
+}
