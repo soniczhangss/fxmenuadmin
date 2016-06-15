@@ -5,47 +5,34 @@
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	<style type="text/css">
 		body { padding-top: 70px; }
+		.center-block {
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+		}
 	</style>
 	<script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.12.min.js"></script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-animate.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-touch.min.js"></script>
+	<script type="text/javascript" src="vendor/ui-bootstrap-tpls-1.3.3.min.js"></script>
 </head>
 <body>
-	<!-- <fxmenu-admin ng-app="fxmenuAdminApp"></fxmenu-admin> -->
-	<nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="#">
-					FxmenuAdmin
-				</a>
-			</div>
-
-			<div class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">Restaurants</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
-	<div class="container" ng-controller="RestaurantController as restaurantCtrl">
-		<div class="table-responsive">
-			<table class="table">
-				<tr>
-					<th>Name</th>
-					<th>Address</th> 
-					<th>Contact</th>
-				</tr>
-				<tr ng-repeat="restaurant in restaurants">
-					<td>{{ restaurant.S.restaurantName }}</td>
-					<td>{{ restaurant.S.restaurantAddress }}</td>
-					<td>{{ restaurant.S.restaurantContactNumber }}</td>
-				</tr>
-			</table>
-		</div>
+	<fxmenu-navbar></fxmenu-navbar>
+	<div class="container">
+		<fxmenu-restaurants></fxmenu-restaurants>
+		<fxmenu-restaurant-modal></fxmenu-restaurant-modal>
 	</div>
 
 	<script type="text/javascript" src="app/app.module.js"></script>
-	<script type="text/javascript" src="app/components/restaurant/restaurantConstant.js"></script>
+	<!-- <script type="text/javascript" src="app/app.route.js"></script> -->
+	<script type="text/javascript" src="app/app.constants.js"></script>
+	<script type="text/javascript" src="app/shared/navbarDirective.js"></script>
+	<script type="text/javascript" src="app/components/restaurant/restaurantModalDirective.js"></script>
+	<script type="text/javascript" src="app/components/restaurant/restaurantDirective.js"></script>
 	<script type="text/javascript" src="app/components/restaurant/restaurantService.js"></script>
+	<script type="text/javascript" src="app/components/restaurant/restaurantModalController.js"></script>
 	<script type="text/javascript" src="app/components/restaurant/restaurantController.js"></script>
 </body>
 </html>

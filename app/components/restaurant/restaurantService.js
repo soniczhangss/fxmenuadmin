@@ -1,5 +1,9 @@
-function restaurants(dbRegion, dbAccessKeyId, dbSecretAccessKey) {
-	this.restaurants = function() {
+fxmenuAdminApp
+	.service('RestaurantService', ["dbRegion", "dbAccessKeyId", "dbSecretAccessKey", "$q", RestaurantService]);
+
+function RestaurantService(dbRegion, dbAccessKeyId, dbSecretAccessKey, $q) {
+	var deferred           = $q.defer();
+	this.getAllRestaurants = function() {
 		var params = {
 			TableName : 'Restaurant-fxmenu'
 		};
@@ -9,12 +13,15 @@ function restaurants(dbRegion, dbAccessKeyId, dbSecretAccessKey) {
 		var docClient = new AWS.DynamoDB();
 
 		docClient.scan(params, function(err, data) {
-			if (err)
-				return false;
-			else
-				return data.Items;
+			if (err) {
+				deferred.reject(err);
+			}	
+			else {
+				//console.log(data.Items);
+				deferred.resolve(data);
+			}
 		});
-	}
-}
 
-fxmenuAdminApp.service('getAllRestaurants', ["dbRegion", "dbAccessKeyId", "dbSecretAccessKey", restaurants]);
+		return deferred.promise;
+	};
+}

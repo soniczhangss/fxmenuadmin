@@ -1,0 +1,29 @@
+<script type="text/ng-template" id="restaurantModalView.html">
+    <div class="modal-header">
+        <h3 class="modal-title">{{ selectedRestaurant.restaurantName.S }}</h3>
+    </div>
+    <div class="modal-body">
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-10">
+				<a href="#" class="thumbnail">
+					<img ng-src="{{ selectedRestaurant.restaurantThumbnail.S }}" alt="...">
+				</a>
+
+				<div class="input-group">
+					<span class="input-group-addon" id="basic-addon1">Address</span>
+					<input type="text" class="form-control" placeholder="{{ selectedRestaurant.restaurantAddress.S }}" aria-describedby="basic-addon1">
+				</div>
+				<div class="input-group">
+					<span class="input-group-addon" id="basic-addon1">Contact Number</span>
+					<input type="text" class="form-control" placeholder="{{ selectedRestaurant.restaurantContactNumber.S }}" aria-describedby="basic-addon1">
+				</div>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-danger" type="button" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-success" type="button" ng-click="save()">Save</button>
+    </div>
+</script>

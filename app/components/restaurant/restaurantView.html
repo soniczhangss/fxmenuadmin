@@ -1,0 +1,14 @@
+<div class="table-responsive">
+	<table class="table">
+		<tr>
+			<th>Name</th>
+			<th>Address</th> 
+			<th>Contact</th>
+		</tr>
+		<tr ng-repeat="restaurant in restaurants" ng-click="open(restaurant)">
+			<td>{{ restaurant.restaurantName.S }}</td>
+			<td>{{ restaurant.restaurantAddress.S }}</td>
+			<td>{{ restaurant.restaurantContactNumber.S }}</td>
+		</tr>
+	</table>
+</div>

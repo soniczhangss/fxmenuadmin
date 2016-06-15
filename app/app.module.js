@@ -1,1 +1,1 @@
-var fxmenuAdminApp = angular.module('fxmenuAdminApp', []);
+var fxmenuAdminApp = angular.module('fxmenuAdminApp', ['ngRoute', 'ngAnimate', 'ngTouch', 'ui.bootstrap']);
