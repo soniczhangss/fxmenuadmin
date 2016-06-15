@@ -3,10 +3,10 @@ fxmenuAdminApp
     $scope.selectedRestaurant = selectedRestaurant;
 
     $scope.ok = function () {
-      $uibModalInstance.close();
+      	$uibModalInstance.close();
     };
 
     $scope.cancel = function () {
-      $uibModalInstance.dismiss();
+      	$uibModalInstance.dismiss();
     };
   });
