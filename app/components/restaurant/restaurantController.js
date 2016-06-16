@@ -1,6 +1,6 @@
 fxmenuAdminApp
-	.controller('RestaurantController', ['$scope', 'RestaurantService', '$uibModal', function($scope, RestaurantService, $uibModal) {
-		RestaurantService.getAllRestaurants().then(
+	.controller('RestaurantController', ['$scope', 'RestaurantDynamoDBService', '$uibModal', function($scope, RestaurantDynamoDBService, $uibModal) {
+		RestaurantDynamoDBService.getAllRestaurants().then(
 			function (result) {
 				$scope.restaurants = result.Items;
 			},

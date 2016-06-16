@@ -1,7 +1,10 @@
 fxmenuAdminApp
-	.service('RestaurantService', ["dbRegion", "dbAccessKeyId", "dbSecretAccessKey", "$q", RestaurantService]);
+	.service('RestaurantDynamoDBService', ["dbRegion", "dbAccessKeyId", "dbSecretAccessKey", "$q", RestaurantDynamoDBService]);
 
-function RestaurantService(dbRegion, dbAccessKeyId, dbSecretAccessKey, $q) {
+fxmenuAdminApp
+	.service('RestaurantS3Service', ["dbRegion", "dbAccessKeyId", "dbSecretAccessKey", RestaurantS3Service]);
+
+function RestaurantDynamoDBService(dbRegion, dbAccessKeyId, dbSecretAccessKey, $q) {
 	var deferred           = $q.defer();
 	this.getAllRestaurants = function() {
 		var params = {
@@ -23,5 +26,13 @@ function RestaurantService(dbRegion, dbAccessKeyId, dbSecretAccessKey, $q) {
 		});
 
 		return deferred.promise;
+	};
+}
+
+function RestaurantS3Service(dbRegion, dbAccessKeyId, dbSecretAccessKey) {
+	this.getRestaurantImgBucket = function() {
+		AWS.config.update({region: dbRegion, accessKeyId: dbAccessKeyId, secretAccessKey: dbSecretAccessKey});
+
+		return new AWS.S3({params: { Bucket: 'fxmenu-admin-restaurant-img' }});
 	};
 }
