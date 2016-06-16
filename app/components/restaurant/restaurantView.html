@@ -1,3 +1,4 @@
+<button type="button" class="btn btn-success" ng-click="newRestaurant()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Restaurant</button>
 <div class="table-responsive">
 	<table class="table">
 		<tr>
@@ -5,7 +6,7 @@
 			<th>Address</th> 
 			<th>Contact</th>
 		</tr>
-		<tr ng-repeat="restaurant in restaurants" ng-click="open(restaurant)">
+		<tr ng-repeat="restaurant in restaurants" ng-click="open(restaurant)" fxmenu-mouseover-change-color>
 			<td>{{ restaurant.restaurantName.S }}</td>
 			<td>{{ restaurant.restaurantAddress.S }}</td>
 			<td>{{ restaurant.restaurantContactNumber.S }}</td>
