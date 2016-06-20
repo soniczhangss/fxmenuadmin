@@ -9,6 +9,14 @@ fxmenuAdminApp
 			}
 		);
 
+		$scope.newRestaurant = function () {
+			var modalInstance = $uibModal.open({
+				animation: true,
+				size: 'lg',
+				templateUrl: 'restaurantModalForAddNewView.html'
+			});
+		};
+
 		$scope.open = function (restaurant) {
 			var modalInstance = $uibModal.open({
 				animation: true,

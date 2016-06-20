@@ -1,0 +1,46 @@
+<script type="text/ng-template" id="restaurantModalForAddNewView.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Register A New Restaurant</h3>
+    </div>
+    <div class="modal-body">
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-10">
+				<a href="#" class="thumbnail" onclick="document.getElementById('file-chooser').click(); return false;">
+					<img no-cache-src="" alt="...">
+				</a>
+				<input type="file" id="file-chooser" style="visibility: hidden; width: 1px; height: 1px" file-model="myFile"/>
+
+				<div class="input-group">
+					<span class="input-group-addon" id="basic-addon1">Address</span>
+					<input type="text" class="form-control" placeholder="e.g. xxx road vic 3100" aria-describedby="basic-addon1">
+				</div>
+
+				<br>
+
+				<div class="input-group">
+					<span class="input-group-addon" id="basic-addon1">Contact Number</span>
+					<input type="text" class="form-control" placeholder="e.g. 2425134124" aria-describedby="basic-addon1">
+				</div>
+
+				<br>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">Menu<button type="button" class="btn btn-xs btn-success pull-right"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add A Dish</button></div>
+					<table class="table">
+						<tr>
+							<th>Thumbnail</th>
+							<th>Name</th> 
+							<th>Price</th>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-danger" type="button" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-success" type="button" ng-click="save()">Create</button>
+    </div>
+</script>

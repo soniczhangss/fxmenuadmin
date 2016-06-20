@@ -19,7 +19,7 @@ function MouseoverChangeColor() {
 function RestaurantDirective() {
 	return {
 		restrict: 'E',
-		templateUrl: 'app/components/restaurant/restaurantView.html',
+		templateUrl: 'app/components/restaurant/view/restaurantView.html',
 		controller: 'RestaurantController',
         controllerAs: 'restaurantCtrl'
 	};
