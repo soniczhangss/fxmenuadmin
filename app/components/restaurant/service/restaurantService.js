@@ -27,6 +27,48 @@ function RestaurantDynamoDBService(dbRegion, dbAccessKeyId, dbSecretAccessKey, $
 		return deferred.promise;
 	};
 
+	this.createARestaurant = function(restaurant) {
+		var deferred = $q.defer();
+		var menuItemsJSON = angular.fromJson(angular.toJson(restaurant.menuItems));
+		var params = {
+	      TableName: 'Restaurant-fxmenu',
+	      Item: {
+	        restaurantId: {
+	          S: restaurant.id
+	        },
+	        restaurantAddress: {
+	          S: restaurant.address
+	        },
+	        restaurantContactNumber: {
+	          S: restaurant.contactNum
+	        },
+	        restaurantDescription: {
+	          S: restaurant.desc
+	        },
+	        restaurantName: {
+	          S: restaurant.name
+	        },
+	        restaurantThumbnail: {
+	          S: restaurant.imageSrc
+	        },
+	        restaurantMenu: {
+	          L: menuItemsJSON
+	        }
+	      }
+	    };
+	    console.log(params);
+	    docClient.putItem(params, function(err, data) {
+			if (err) {
+				deferred.reject(err);
+			}	
+			else {
+				deferred.resolve(data);
+			}
+		});
+
+		return deferred.promise;
+	};
+
 	this.updateARestaurant = function(restaurant) {
 		// For now new changes are not detected.
 		// We simply replace the restaurant info with the values of the form.
@@ -76,9 +118,21 @@ function RestaurantDynamoDBService(dbRegion, dbAccessKeyId, dbSecretAccessKey, $
 }
 
 function RestaurantS3Service(dbRegion, dbAccessKeyId, dbSecretAccessKey) {
-	this.getRestaurantImgBucket = function() {
+	this.getRestaurantImgBucket = function () {
 		AWS.config.update({region: dbRegion, accessKeyId: dbAccessKeyId, secretAccessKey: dbSecretAccessKey});
 
 		return new AWS.S3({params: { Bucket: 'fxmenu-admin-restaurant-img' }});
+	};
+
+	this.uploadImage = function (fileToUpload, image) {
+		var params = {
+            Key: image.name,
+            ContentType: fileToUpload.type,
+            Body: fileToUpload,
+            ACL: "public-read"
+        };
+        this.getRestaurantImgBucket().upload(params, function (err, data) {
+            console.log(err, data);
+        });
 	};
 }

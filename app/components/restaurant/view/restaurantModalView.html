@@ -7,7 +7,7 @@
 			<div class="col-md-1"></div>
 			<div class="col-md-10">
 				<a href="#" class="thumbnail" onclick="document.getElementById('file-chooser').click(); return false;">
-					<img ng-src="{{imageSrc}}" alt="...">
+					<img ng-src="{{imageSrc}}" no-cache-src="{{selectedRestaurant.restaurantThumbnail.S}}" alt="Click to upload image.">
 				</a>
 				<input type="file" id="file-chooser" style="visibility: hidden; width: 1px; height: 1px" fxmenu-file-select="onFileSelect($files)"/>
 

@@ -13,6 +13,8 @@ fxmenuAdminApp
 			var modalInstance = $uibModal.open({
 				animation: true,
 				size: 'lg',
+				controller: 'RestaurantModalForAddNewController',
+				controllerAs: 'RestaurantModalForAddNewCtrl',
 				templateUrl: 'restaurantModalForAddNewView.html'
 			});
 		};
