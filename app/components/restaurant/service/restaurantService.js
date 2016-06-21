@@ -30,7 +30,7 @@ function RestaurantDynamoDBService(dbRegion, dbAccessKeyId, dbSecretAccessKey, $
 	this.updateARestaurant = function(restaurant) {
 		// For now new changes are not detected.
 		// We simply replace the restaurant info with the values of the form.
-
+		var menuItemsJSON = angular.fromJson(angular.toJson(restaurant.menuItems));
 		var params = {
 			TableName: 'Restaurant-fxmenu',
 			Key: {
@@ -56,13 +56,12 @@ function RestaurantDynamoDBService(dbRegion, dbAccessKeyId, dbSecretAccessKey, $
 					S: restaurant.imageSrc
 				},
 				':menu': {
-					L: restaurant.menuItems
+					L: menuItemsJSON
 				}
 			},
 			ReturnValues:'UPDATED_NEW'
 		};
 		var deferred = $q.defer();
-		console.log(restaurant.menuItems);
 		docClient.updateItem(params, function(err, data) {
 			if (err) {
 				deferred.reject(err);
