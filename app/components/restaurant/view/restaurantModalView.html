@@ -7,20 +7,20 @@
 			<div class="col-md-1"></div>
 			<div class="col-md-10">
 				<a href="#" class="thumbnail" onclick="document.getElementById('file-chooser').click(); return false;">
-					<img no-cache-src="{{ selectedRestaurant.restaurantThumbnail.S }}" alt="...">
+					<img ng-src="{{imageSrc}}" alt="...">
 				</a>
-				<input type="file" id="file-chooser" style="visibility: hidden; width: 1px; height: 1px" ng-file-select="onFileSelect($files)" file-model="myFile"/>
+				<input type="file" id="file-chooser" style="visibility: hidden; width: 1px; height: 1px" fxmenu-file-select="onFileSelect($files)"/>
 
 				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon1">Address</span>
-					<input type="text" class="form-control" placeholder="{{ selectedRestaurant.restaurantAddress.S }}" aria-describedby="basic-addon1">
+					<span class="input-group-addon" id="restaurant-address">Address</span>
+					<input type="text" class="form-control" ng-model="restaurant.address" aria-describedby="restaurant-address">
 				</div>
 
 				<br>
 
 				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon1">Contact Number</span>
-					<input type="text" class="form-control" placeholder="{{ selectedRestaurant.restaurantContactNumber.S }}" aria-describedby="basic-addon1">
+					<span class="input-group-addon" id="restaurant-contactNum">Contact Number</span>
+					<input type="text" class="form-control" ng-model="restaurant.contactNum" aria-describedby="restaurant-contactNum">
 				</div>
 
 				<br>
@@ -30,13 +30,13 @@
 					<table class="table">
 						<tr>
 							<th>Thumbnail</th>
-							<th>Name</th> 
+							<th>Name</th>
 							<th>Price</th>
 						</tr>
 						<tr ng-repeat="dish in selectedRestaurant.restaurantMenu.L">
 							<td>{{ dish.M.thumbnail.S }}</td>
 							<td>{{ dish.M.name.S }}</td>
-							<td>{{ dish.M.price.N | currency : AU$}}</td>
+							<td>{{ dish.M.price.N | currency : AU$ }}</td>
 						</tr>
 					</table>
 				</div>
