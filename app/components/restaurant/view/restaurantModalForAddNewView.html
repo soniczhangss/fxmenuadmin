@@ -47,6 +47,11 @@
 							<th>Name</th> 
 							<th>Price</th>
 						</tr>
+						<tr ng-repeat="dish in restaurant.menuItems">
+							<td><img ng-src="{{ dish.thumbnail }}" alt="Dish thumbnail."></td>
+							<td>{{ dish.name }}</td>
+							<td>{{ dish.price | currency : AU$ }}</td>
+						</tr>
 					</table>
 				</div>
 			</div>

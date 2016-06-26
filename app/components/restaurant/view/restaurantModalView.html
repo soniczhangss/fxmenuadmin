@@ -34,7 +34,7 @@
 							<th>Price</th>
 						</tr>
 						<tr ng-repeat="dish in selectedRestaurant.restaurantMenu.L">
-							<td>{{ dish.M.thumbnail.S }}</td>
+						<td><img ng-src="{{ dish.M.thumbnailUrl.S }}" alt="Dish thumbnail."></td>
 							<td>{{ dish.M.name.S }}</td>
 							<td>{{ dish.M.price.N | currency : AU$ }}</td>
 						</tr>

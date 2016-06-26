@@ -2,7 +2,7 @@ fxmenuAdminApp
 	.service('RestaurantDynamoDBService', ['dbRegion', 'dbAccessKeyId', 'dbSecretAccessKey', '$q', '$filter', RestaurantDynamoDBService]);
 
 fxmenuAdminApp
-	.service('RestaurantS3Service', ['dbRegion', 'dbAccessKeyId', 'dbSecretAccessKey', RestaurantS3Service]);
+	.service('RestaurantS3Service', ['dbRegion', 'dbAccessKeyId', 'dbSecretAccessKey', '$q', RestaurantS3Service]);
 
 function RestaurantDynamoDBService(dbRegion, dbAccessKeyId, dbSecretAccessKey, $q, $filter) {
 	AWS.config.update({region: dbRegion, accessKeyId: dbAccessKeyId, secretAccessKey: dbSecretAccessKey});
@@ -56,12 +56,13 @@ function RestaurantDynamoDBService(dbRegion, dbAccessKeyId, dbSecretAccessKey, $
 	        }
 	      }
 	    };
-	    console.log(params);
+	    console.log(menuItemsJSON);
 	    docClient.putItem(params, function(err, data) {
 			if (err) {
+				console.log(err, err.stack);
 				deferred.reject(err);
-			}	
-			else {
+			} else {
+				console.log(data);
 				deferred.resolve(data);
 			}
 		});
@@ -117,22 +118,30 @@ function RestaurantDynamoDBService(dbRegion, dbAccessKeyId, dbSecretAccessKey, $
 	};
 }
 
-function RestaurantS3Service(dbRegion, dbAccessKeyId, dbSecretAccessKey) {
+function RestaurantS3Service(dbRegion, dbAccessKeyId, dbSecretAccessKey, $q) {
 	this.getRestaurantImgBucket = function () {
 		AWS.config.update({region: dbRegion, accessKeyId: dbAccessKeyId, secretAccessKey: dbSecretAccessKey});
 
 		return new AWS.S3({params: { Bucket: 'fxmenu-admin-restaurant-img' }});
 	};
 
-	this.uploadImage = function (fileToUpload, image) {
+	this.uploadImage = function (fileToUpload, imageFileName) {
 		var params = {
-            Key: image.name,
+            Key: imageFileName,
             ContentType: fileToUpload.type,
             Body: fileToUpload,
             ACL: "public-read"
         };
+        var deferred = $q.defer();
         this.getRestaurantImgBucket().upload(params, function (err, data) {
-            console.log(err, data);
+        	if (err) {
+				deferred.reject(err);
+			}	
+			else {
+				//console.log(data.Items);
+				deferred.resolve(data);
+			}
         });
+        return deferred.promise;
 	};
 }

@@ -1,5 +1,6 @@
 fxmenuAdminApp
-	.service('FileUploadService', ['$q', '$log', FileUploadService]);
+	.service('FileUploadService', ['$q', '$log', FileUploadService])
+    .service('RandomStringService', [RandomStringService]);
 
 function FileUploadService($q, $log) {
 	var onLoad = function(reader, deferred, scope) {
@@ -47,5 +48,17 @@ function FileUploadService($q, $log) {
 
     return {
         readAsDataUrl: readAsDataURL  
+    };
+}
+
+function RandomStringService() {
+    this.getRandomString = function () {
+        var s = "";
+        var x = 20;
+        while(s.length < x && x > 0) {
+            var r = Math.random();
+            s += (r<0.1 ? Math.floor(r*100) : String.fromCharCode(Math.floor(r*26) + (r>0.5?97:65)));
+        }
+        return s;
     };
 }
