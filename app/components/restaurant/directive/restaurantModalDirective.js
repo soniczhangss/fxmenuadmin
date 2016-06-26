@@ -1,10 +1,7 @@
 fxmenuAdminApp
-	.directive('fxmenuRestaurantModal', RestaurantModalDirective);
-
-fxmenuAdminApp
-	.directive('fxmenuRestaurantModalForAddNew', RestaurantModalForAddNewDirective);
-
-fxmenuAdminApp
+	.directive('fxmenuRestaurantModal', RestaurantModalDirective)
+	.directive('fxmenuRestaurantModalForAddNew', RestaurantModalForAddNewDirective)
+	.directive('fxmenuRestaurantMenuModal', RestaurantMenuModalDirective)
 	.directive('noCacheSrc', NoCacheImage);
 
 function NoCacheImage($window) {
@@ -23,6 +20,13 @@ function RestaurantModalDirective() {
 	return {
 		restrict: 'E',
 		templateUrl: 'app/components/restaurant/view/restaurantModalView.html'
+	};
+}
+
+function RestaurantMenuModalDirective() {
+	return {
+		restrict: 'E',
+		templateUrl: 'app/components/restaurant/view/restaurantMenuModalView.html'
 	};
 }
 

@@ -1,0 +1,33 @@
+<script type="text/ng-template" id="restaurantMenuModalView.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Add a new dish</h3>
+    </div>
+    <div class="modal-body">
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-10">
+				<a href="#" class="thumbnail" onclick="document.getElementById('file-chooser').click(); return false;">
+					<img ng-src="{{imageSrc}}" no-cache-src="{{ dish.M.thumbnail.S }}" alt="Click to upload image.">
+				</a>
+				<input type="file" id="file-chooser" style="visibility: hidden; width: 1px; height: 1px" fxmenu-file-select="onFileSelect($files)"/>
+
+				<div class="input-group">
+					<span class="input-group-addon" id="dish-name">Name</span>
+					<input type="text" class="form-control" ng-model="dish.name" placeholder="" aria-describedby="dish-name">
+				</div>
+
+				<br>
+
+				<div class="input-group">
+					<span class="input-group-addon" id="dish-price">Price</span>
+					<input type="text" class="form-control" ng-model="dish.price" aria-describedby="dish-price">
+				</div>
+			</div>
+			<div class="col-md-1"></div>
+		</div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-danger" type="button" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-success" type="button" ng-click="save()">Save</button>
+    </div>
+</script>

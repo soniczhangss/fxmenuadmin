@@ -37,7 +37,7 @@ fxmenuAdminApp
 
 	})
 
-	.controller('RestaurantModalForAddNewController', function ($scope, $uibModalInstance, uuid, RestaurantDynamoDBService, RestaurantS3Service, FileUploadService) {
+	.controller('RestaurantModalForAddNewController', function ($scope, $uibModalInstance, $uibModal, uuid, RestaurantDynamoDBService, RestaurantS3Service, FileUploadService) {
 
 		$scope.create = function () {
 			// Need to validate fields
@@ -75,5 +75,36 @@ fxmenuAdminApp
 
 		$scope.cancel = function () {
 		  	$uibModalInstance.dismiss();
+		};
+
+		$scope.newMenuItem = function () {
+			var modalInstance = $uibModal.open({
+				animation: true,
+				size: 'lg',
+				controller: 'RestaurantMenuModalController',
+				controllerAs: 'RestaurantMenuModalCtrl',
+				templateUrl: 'restaurantMenuModalView.html',
+				resolve: {
+					newRestaurant: function () {
+						return $scope.restaurant;
+					}
+				}
+			});
+		};
+	})
+
+	.controller('RestaurantMenuModalController', function ($scope, $uibModalInstance, newRestaurant, FileUploadService) {
+		var restaurant = newRestaurant;
+
+		$scope.cancel = function () {
+		  	$uibModalInstance.dismiss();
+		};
+
+		$scope.getFile = function () {
+
+			FileUploadService.readAsDataUrl($scope.file, $scope)
+			.then(function(result) {
+				$scope.imageSrc = result;
+			});
 		};
 	});
