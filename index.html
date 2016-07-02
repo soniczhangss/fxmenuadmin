@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<title ng-bind="title">Wai-Mai-Xiao-Ge-Admin</title>
+	<base href="/">
+
+	<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="bower_components/angular-toastr/dist/angular-toastr.css">
+	
+	<style type="text/css">
+		body { padding-top: 70px; }
+		table tbody tr:hover { background-color: LightGrey; cursor: pointer; }
+	</style>
+</head>
+<body>
+	<div ng-include="'src/app/layout/shell.html'"></div>
+	<div ng-show="showSplash">Loading...</div>
+
+	<script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.12.min.js"></script>
+	<script src="bower_components/angular/angular.js"></script>
+	<script src="bower_components/angular-animate/angular-animate.js"></script>
+	<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+	<script src="bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
+	<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+	<script src="bower_components/extras.angular.plus/ngplus-overlay.js"></script>
+	<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+
+	<script src="/src/app/app.module.js"></script>
+	<script src="/src/app/blocks/logger/logger.module.js"></script>
+	<script src="/src/app/restaurant/restaurant.module.js"></script>
+	<script src="/src/app/blocks/router/router.module.js"></script>
+	<script src="/src/app/core/core.module.js"></script>
+	<script src="/src/app/blocks/utilities/utilities.module.js"></script>
+	<script src="/src/app/blocks/utilities/no-cache-src.directive.js"></script>
+	<script src="/src/app/blocks/utilities/fileUploader.js"></script>
+	<script src="/src/app/blocks/utilities/file-select.directive.js"></script>
+	<script src="/src/app/blocks/utilities/randomStringGenerator.js"></script>
+	<script src="/src/app/layout/layout.module.js"></script>
+	<script src="/src/app/restaurant/restaurant.route.js"></script>
+	<script src="/src/app/restaurant/restaurant.controller.js"></script>
+	<script src="/src/app/restaurant/restaurant-modal.controller.js"></script>
+	<script src="/src/app/restaurant/restaurant-modal.directive.js"></script>
+	<script src="/src/app/restaurant/restaurant-menu-modal.controller.js"></script>
+	<script src="/src/app/restaurant/restaurant-menu-modal.directive.js"></script>
+	<script src="/src/app/blocks/logger/logger.js"></script>
+	<script src="/src/app/blocks/router/router-helper.provider.js"></script>
+	<script src="/src/app/core/config.js"></script>
+	<script src="/src/app/core/constants.js"></script>
+	<script src="/src/app/core/core.route.js"></script>
+	<script src="/src/app/core/dataservice.js"></script>
+	<script src="/src/app/layout/top-nav.directive.js"></script>
+	<script src="/src/app/layout/top-nav.controller.js"></script>
+	<script src="/src/app/layout/shell.controller.js"></script>
+
+</body>
+</html>

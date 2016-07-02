@@ -1,0 +1,12 @@
+<div ng-controller="ShellController as vm">
+	<top-nav></top-nav>
+	<div class="container">
+		<div ui-view></div>
+		<div ngplus-overlay ngplus-overlay-delay-in="50" ngplus-overlay-delay-out="700" ngplus-overlay-animation="dissolve-animation">
+			<img src="src/images/busy.gif" />
+			<div class="page-spinner-message overlay-message">{{vm.busyMessage}}</div>
+		</div>
+		<restaurant-modal></restaurant-modal>
+		<restaurant-menu-modal></restaurant-menu-modal>
+	</div>
+</div>
