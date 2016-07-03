@@ -52,11 +52,11 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="dish in restaurant.menuItems" ng-click="open(dish)">
-								<td><div class="thumbnail"><img ng-src="{{ dish.M.thumbnailUrl.S }}" alt="Dish thumbnail."></div></td>
-								<td>{{ dish.M.name.S }}</td>
-								<td>{{ dish.M.category.S }}</td>
-								<td>{{ dish.M.price.N | currency : AU$ }}</td>
+							<tr ng-repeat="dish in restaurant.menuItems">
+								<td><img ng-src="{{ dish.dishThumbnail }}" alt="Dish thumbnail"></td>
+								<td>{{ dish.name }}</td>
+								<td>{{ dish.category }}</td>
+								<td>{{ dish.price | currency : AU$ }}</td>
 							</tr>
 						</tbody>
 					</table>

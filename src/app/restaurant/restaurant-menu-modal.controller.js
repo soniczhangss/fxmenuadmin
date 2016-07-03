@@ -8,33 +8,32 @@
   RestaurantMenuModalController.$inject = ['logger', 'imgRepository', 'dataservice', '$scope', '$uibModalInstance', 'randomStringGenerator', 'restaurant', 'fileUploader'];
   /* @ngInject */
   function RestaurantMenuModalController(logger, imgRepository, dataservice, $scope, $uibModalInstance, randomStringGenerator, restaurant, fileUploader) {
-    var imageFileName = randomStringGenerator.getRandomString();
+
+    $scope.dish = {
+      name: '',
+      price: '',
+      category: '',
+      dishThumbnail: '',
+      thumbnailObj: ''
+    };
 
     $scope.cancel = function () {
         $uibModalInstance.dismiss();
     };
 
     $scope.getFile = function () {
-
-      var imageSrcUrl = imgRepository + imageFileName;
-      $scope.dish = {
-        name: '',
-        price: '',
-        category: '',
-        thumbnailUrl: imageSrcUrl,
-        thumbnail: '',
-        thumbnailObj: ''
-      };
-
-      fileUploader.readAsDataUrl($scope.file, $scope)
-      .then(function(result) {
-        $scope.imageSrc = result;
-      });
+      fileUploader.readAsDataUrl($scope.file, $scope).then(
+        function(result) {
+          $scope.dish.dishThumbnail = result;
+          $scope.dish.thumbnailObj = $scope.file;
+        },
+        function (error) {
+          console.log(error, error.stack);
+        }
+      );
     };
 
     $scope.addADish = function () {
-      $scope.dish.thumbnail = $scope.imageSrc;
-      $scope.dish.thumbnailObj = $scope.file;
       restaurant.menuItems.push($scope.dish);
       $uibModalInstance.dismiss();
     };
