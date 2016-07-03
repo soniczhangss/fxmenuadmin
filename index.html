@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html ng-app="app">
 <head>
-	<title ng-bind="title">Wai-Mai-Xiao-Ge-Admin</title>
+	<title ng-bind="title">外卖小哥管理系统</title>
 	<base href="/">
+	<meta charset="UTF-8">
 
 	<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="bower_components/angular-toastr/dist/angular-toastr.css">
@@ -24,6 +25,7 @@
 	<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 	<script src="bower_components/extras.angular.plus/ngplus-overlay.js"></script>
 	<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+	<script src="bower_components/angular-uuids/angular-uuid.js"></script>
 
 	<script src="/src/app/app.module.js"></script>
 	<script src="/src/app/blocks/logger/logger.module.js"></script>
@@ -38,6 +40,9 @@
 	<script src="/src/app/layout/layout.module.js"></script>
 	<script src="/src/app/restaurant/restaurant.route.js"></script>
 	<script src="/src/app/restaurant/restaurant.controller.js"></script>
+	<script src="/src/app/restaurant/restaurant-add.controller.js"></script>
+	<script src="/src/app/restaurant/restaurant-orders.controller.js"></script>
+	<script src="/src/app/restaurant/restaurant-order-modal.directive.js"></script>
 	<script src="/src/app/restaurant/restaurant-modal.controller.js"></script>
 	<script src="/src/app/restaurant/restaurant-modal.directive.js"></script>
 	<script src="/src/app/restaurant/restaurant-menu-modal.controller.js"></script>

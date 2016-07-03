@@ -1,0 +1,33 @@
+<script type="text/ng-template" id="src/app/restaurant/restaurant-order-modal.html">
+	<div class="modal-body">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>菜品名称</th>
+					<th>菜品数量</th>
+					<th>菜品价格</th>
+					<th>顾客备注</th>
+					<th>所属餐厅名称</th>
+					<th>所属餐厅地址</th>
+					<th>所属餐厅电话</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="orderItem in order.orderItems">
+					<td>{{ orderItem.name }}</td>
+					<td>{{ orderItem.quantity }}</td>
+					<td>{{ orderItem.price | currency : AU$ }}</td>
+					<td>{{ orderItem.description }}</td>
+					<td>{{ orderItem.restaurant.name }}</td>
+					<td>{{ orderItem.restaurant.address }}</td>
+					<td>{{ orderItem.restaurant.restaurantContactNumber }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="modal-footer">
+		<button class="btn btn-warning" type="button" ng-click="await()">待处理</button>
+		<button class="btn btn-success" type="button" ng-click="finish()">完成</button>
+	</div>
+</script>

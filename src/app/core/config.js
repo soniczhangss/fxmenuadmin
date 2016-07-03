@@ -13,8 +13,8 @@
   }
 
   var config = {
-    appErrorPrefix: '[Wai-Mai-Xiao-Ge-Admin Error] ',
-    appTitle: 'Wai-Mai-Xiao-Ge-Admin'
+    appErrorPrefix: '[外卖小哥管理系统 Error] ',
+    appTitle: '外卖小哥管理系统'
   };
 
   core.value('config', config);

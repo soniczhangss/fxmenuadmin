@@ -2,13 +2,36 @@
 	<div class="container">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="#">
-				Wai-Mai-Xiao-Ge Admin
+				外卖小哥管理系统
 			</a>
 		</div>
 		<div class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
-				<li ng-repeat="r in vm.navRoutes">
-					<a ui-sref="{{r.name}}" ng-bind-html="r.settings.content"></a>
+				<li uib-dropdown>
+					<a href id="simple-dropdown" uib-dropdown-toggle>
+						餐厅 <span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+						<li>
+							<a ui-sref="restaurant-list">餐厅列表</a>
+						</li>
+						<li>
+							<a ui-sref="restaurant-add">添加餐厅</a>
+						</li>
+					</ul>
+				</li>
+				<li uib-dropdown>
+					<a href id="simple-dropdown" uib-dropdown-toggle>
+						订单中心 <span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+						<li>
+							<a ui-sref="restaurant-orders">实时订单</a>
+						</li>
+						<li>
+							<a href>历史订单</a>
+						</li>
+					</ul>
 				</li>
 			</ul>
 		</div>

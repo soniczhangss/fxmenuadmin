@@ -11,5 +11,6 @@
     	'ngAnimate',
     	'toastr',
         'blocks.utilities',
-    	'ui.bootstrap']);
+    	'ui.bootstrap',
+        "angular-uuid"]);
 })();

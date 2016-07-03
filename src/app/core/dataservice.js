@@ -5,19 +5,41 @@
     .module('app.core')
     .factory('dataservice', dataservice);
 
-  dataservice.$inject = ['$q', 'logger', 'dbRegion', 'dbAccessKeyId', 'dbSecretAccessKey', 'imgRepository', 'randomStringGenerator'];
+  dataservice.$inject = ['$q', 'uuid', 'logger', 'dbRegion', 'dbAccessKeyId', 'dbSecretAccessKey', 'imgRepository', 'randomStringGenerator'];
   /* @ngInject */
-  function dataservice($q, logger, dbRegion, dbAccessKeyId, dbSecretAccessKey, imgRepository, randomStringGenerator) {
+  function dataservice($q, uuid, logger, dbRegion, dbAccessKeyId, dbSecretAccessKey, imgRepository, randomStringGenerator) {
+    AWS.config.update({region: dbRegion, accessKeyId: dbAccessKeyId, secretAccessKey: dbSecretAccessKey});
+
     var service = {
       getRestaurants: getRestaurants,
-      updateARestaurant: updateARestaurant
+      updateARestaurant: updateARestaurant,
+      addARestaurant: addARestaurant,
+      getOrders: getOrders
     };
 
     return service;
 
-    function getRestaurantImgBucket() {
-      AWS.config.update({region: dbRegion, accessKeyId: dbAccessKeyId, secretAccessKey: dbSecretAccessKey});
+    function getOrders() {
+      var docClient = new AWS.DynamoDB();
 
+      var params = {
+        TableName : 'Order-fxmenu'
+      };
+      var deferred = $q.defer();
+
+      docClient.scan(params, function(err, data) {
+        if (err) {
+          deferred.reject(err);
+        } 
+        else {
+          deferred.resolve(data);
+        }
+      });
+
+      return deferred.promise;
+    }
+
+    function getRestaurantImgBucket() {
       return new AWS.S3({params: { Bucket: 'fxmenu-admin-restaurant-img' }});
     }
 
@@ -40,10 +62,6 @@
     }
 
     function getRestaurants() {
-      AWS.config.update( {region: dbRegion,
-                          accessKeyId: dbAccessKeyId,
-                          secretAccessKey: dbSecretAccessKey} );
-
       var docClient = new AWS.DynamoDB();
 
       var params = {
@@ -120,11 +138,6 @@
       restaurant.menuItems = items;
 
       var menuItemsJSON = angular.fromJson(angular.toJson(restaurant.menuItems));
-      console.log(menuItemsJSON);
-
-      AWS.config.update( {region: dbRegion,
-                          accessKeyId: dbAccessKeyId,
-                          secretAccessKey: dbSecretAccessKey} );
 
       var docClient = new AWS.DynamoDB();
       var params = {
@@ -170,7 +183,102 @@
       });
 
       return deferred.promise;
+    }
 
+    function addARestaurant(restaurant, restaurantImgFile) {
+      var deferred = $q.defer();
+      if (!angular.isUndefined(restaurantImgFile)) {
+        var restaurantImgFileName = randomStringGenerator.getRandomString();
+        uploadAnImage(restaurantImgFile, restaurantImgFileName).then(
+          function (result) {
+            console.log(result);
+          },
+          function (error) {
+            console.log(error, error.stack);
+          }
+        );
+        restaurant.imageSrc = imgRepository + restaurantImgFileName;
+      }
+      var items = [];
+      angular.forEach(restaurant.menuItems, function (value, key) {
+        
+        if (!angular.isUndefined(value.thumbnailObj)) {
+          var dishImgFileName = randomStringGenerator.getRandomString();
+          uploadAnImage(value.thumbnailObj, dishImgFileName).then(
+            function (result) {
+              console.log(result);
+            },
+            function (error) {
+              console.log(error, error.stack);
+            }
+          );
+          value.dishThumbnail = imgRepository + dishImgFileName;
+        }
+
+        var tmp = {};
+        delete value.thumbnailObj;
+
+        var tmp2 = {};
+        tmp2['S'] = value.name;
+        value.name = tmp2;
+
+        var tmp2 = {};
+        tmp2['N'] = value.price;
+        value.price = tmp2;
+
+        var tmp2 = {};
+        tmp2['S'] = value.category;
+        value.category = tmp2;
+
+        var tmp2 = {};
+        tmp2['S'] = value.dishThumbnail;
+        value.dishThumbnail = tmp2;
+
+        tmp['M'] = value;
+        value = tmp;
+        items.push(value);
+      });
+
+      restaurant.menuItems = items;
+
+      var menuItemsJSON = angular.fromJson(angular.toJson(restaurant.menuItems));
+
+      var docClient = new AWS.DynamoDB();
+      var params = {
+        TableName: 'Restaurant-fxmenu',
+        Item: {
+          restaurantId: {
+            S: uuid.v4()
+          },
+          restaurantAddress: {
+            S: restaurant.address
+          },
+          restaurantContactNumber: {
+            S: restaurant.contactNum
+          },
+          restaurantDescription: {
+            S: restaurant.description
+          },
+          restaurantName: {
+            S: restaurant.name
+          },
+          restaurantThumbnail: {
+            S: restaurant.imageSrc
+          },
+          restaurantMenu: {
+            L: menuItemsJSON
+          }
+        }
+      };
+      docClient.putItem(params, function(err, data) {
+        if (err) {
+          deferred.reject(err);
+        } else {
+          deferred.resolve(data);
+        }
+      });
+
+      return deferred.promise;
     }
   }
 })();

@@ -14,15 +14,41 @@
   function getStates() {
     return [
       {
-        state: 'restaurant',
+        state: 'restaurant-list',
         config: {
-          url: '/restaurant',
-          templateUrl: 'src/app/restaurant/restaurant.html',
+          url: '/restaurant-list',
+          templateUrl: 'src/app/restaurant/restaurant-list.html',
           controller: 'RestaurantController',
-          title: 'Restaurant',
+          title: '餐厅列表',
           settings: {
             nav: 2,
-            content: '<i class="fa fa-lock"></i> Restaurant'
+            content: '餐厅列表'
+          }
+        }
+      },
+      {
+        state: 'restaurant-add',
+        config: {
+          url: '/restaurant-add',
+          templateUrl: 'src/app/restaurant/restaurant-add.html',
+          controller: 'RestaurantAddController',
+          title: '添加餐厅',
+          settings: {
+            nav: 2,
+            content: '添加餐厅'
+          }
+        }
+      },
+      {
+        state: 'restaurant-orders',
+        config: {
+          url: '/restaurant-orders',
+          templateUrl: 'src/app/restaurant/restaurant-orders.html',
+          controller: 'RestaurantOrderController',
+          title: '实时订单',
+          settings: {
+            nav: 2,
+            content: '实时订单'
           }
         }
       }
