@@ -16,8 +16,8 @@
 			<td>{{ order.customerContactNumber.S }}</td>
 			<td>{{ order.paymentMethod.S }}</td>
 			<td>{{ order.lastProcessedDateTime.S }}</td>
-			<td ng-if="!order.status.S"><span class="label label-info">新订单</span></td>
-			<td ng-if="order.status.S"><span class="label label-warning">{{ order.status.S }}</span></td>
+			<td ng-if="!order.orderStatus.S"><span class="label label-info">新订单</span></td>
+			<td ng-if="order.orderStatus.S"><span class="label label-warning">{{ order.orderStatus.S }}</span></td>
 		</tr>
 	</tbody>
 </table>

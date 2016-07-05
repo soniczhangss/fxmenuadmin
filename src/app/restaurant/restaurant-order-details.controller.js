@@ -38,8 +38,7 @@
 
     $scope.await = function () {
       if (angular.isUndefined(order.status)) {
-        order.status = {S:''};
-        order.status.S = $scope.description;
+        order.status = $scope.description;
       }
       console.log(order.status);
       dataservice.updateAnOrder(order).then(

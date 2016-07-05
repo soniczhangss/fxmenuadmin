@@ -22,16 +22,12 @@
 
     return service;
 
-    function closeAnOrder() {
-
-    }
-
-    function updateAnOrder(order) {
+    function closeAnOrder(order) {
       var deferred = $q.defer();
-      var status = '待处理';
+      var status = 'processed';
 
-      if (order.status.S === '')
-        order.status.S = status;
+      if (!angular.isUndefined(order.status))
+        status = order.status.S;
 
       var d = new Date();
       var n = d.getTime();
@@ -44,7 +40,7 @@
             S: order.orderId.S
           }
         },
-        UpdateExpression: 'set customerContactNumber = :ccn, deliveryAddress=:da, orderDateTime=:odt, orderItems=:ois, paymentMethod=:pm, lastProcessedDateTime=:lpdt, status=:stat',
+        UpdateExpression: 'set customerContactNumber = :ccn, deliveryAddress=:da, orderDateTime=:odt, orderItems=:ois, paymentMethod=:pm, lastProcessedDateTime=:lpdt, orderStatus=:stat',
         ExpressionAttributeValues:{
           ':ccn': {
             S: order.customerContactNumber.S
@@ -65,7 +61,64 @@
             S: dateTime
           },
           ':stat': {
-            S: order.status.S
+            S: status
+          }
+        },
+        ReturnValues:'UPDATED_NEW'
+      };
+      var docClient = new AWS.DynamoDB();
+      docClient.updateItem(params, function(err, data) {
+        if (err) {
+          console.log(err);
+          deferred.reject(err);
+        } else {
+          deferred.resolve(data);
+        }
+      });
+
+      return deferred.promise;
+    }
+
+    function updateAnOrder(order) {
+      var deferred = $q.defer();
+      var status = '待处理';
+
+      if (!angular.isUndefined(order.status))
+        status = order.status.S;
+
+      var d = new Date();
+      var n = d.getTime();
+      var dateTime = $filter('date')(n, 'dd-MM-yyyy HH:mm:ss Z');
+
+      var params = {
+        TableName: 'Order-fxmenu',
+        Key: {
+          orderId: {
+            S: order.orderId.S
+          }
+        },
+        UpdateExpression: 'set customerContactNumber = :ccn, deliveryAddress=:da, orderDateTime=:odt, orderItems=:ois, paymentMethod=:pm, lastProcessedDateTime=:lpdt, orderStatus=:stat',
+        ExpressionAttributeValues:{
+          ':ccn': {
+            S: order.customerContactNumber.S
+          },
+          ':da': {
+            S: order.deliveryAddress.S
+          },
+          ':odt': {
+            S: order.orderDateTime.S
+          },
+          ':ois': {
+            L: order.orderItems.L
+          },
+          ':pm': {
+            S: order.paymentMethod.S
+          },
+          ':lpdt': {
+            S: dateTime
+          },
+          ':stat': {
+            S: status
           }
         },
         ReturnValues:'UPDATED_NEW'
@@ -89,7 +142,7 @@
       var params = {
         TableName: 'Order-fxmenu',
         FilterExpression: '#stat = :proc',
-        ExpressionAttributeNames: {'#stat': 'status'},
+        ExpressionAttributeNames: {'#stat': 'orderStatus'},
         ExpressionAttributeValues: {':proc': {S:'processed'}}
       };
       var deferred = $q.defer();
@@ -112,7 +165,7 @@
       var params = {
         TableName: 'Order-fxmenu',
         FilterExpression: '#stat <> :proc',
-        ExpressionAttributeNames: {'#stat': 'status'},
+        ExpressionAttributeNames: {'#stat': 'orderStatus'},
         ExpressionAttributeValues: {':proc': {S:'processed'}}
       };
       var deferred = $q.defer();
