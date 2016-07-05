@@ -35,5 +35,28 @@
         $scope.orderItems = [];
       }
     }
+
+    $scope.await = function () {
+      if (angular.isUndefined(order.status)) {
+        order.status = {S:''};
+        order.status.S = $scope.description;
+      }
+      console.log(order.status);
+      dataservice.updateAnOrder(order).then(
+        function(result) {
+          console.log(result);
+        },
+        function (error) {
+          console.log(error, error.stack);
+        });
+    };
+
+    $scope.finish = function() {
+      dataservice.closeAnOrder(order);
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss();
+    };
   }
 })();

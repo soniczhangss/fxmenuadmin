@@ -5,9 +5,9 @@
     .module('app.core')
     .factory('dataservice', dataservice);
 
-  dataservice.$inject = ['$q', 'uuid', 'logger', 'dbRegion', 'dbAccessKeyId', 'dbSecretAccessKey', 'imgRepository', 'randomStringGenerator'];
+  dataservice.$inject = ['$q', '$filter', 'uuid', 'logger', 'dbRegion', 'dbAccessKeyId', 'dbSecretAccessKey', 'imgRepository', 'randomStringGenerator'];
   /* @ngInject */
-  function dataservice($q, uuid, logger, dbRegion, dbAccessKeyId, dbSecretAccessKey, imgRepository, randomStringGenerator) {
+  function dataservice($q, $filter, uuid, logger, dbRegion, dbAccessKeyId, dbSecretAccessKey, imgRepository, randomStringGenerator) {
     AWS.config.update({region: dbRegion, accessKeyId: dbAccessKeyId, secretAccessKey: dbSecretAccessKey});
 
     var service = {
@@ -15,10 +15,73 @@
       updateARestaurant: updateARestaurant,
       addARestaurant: addARestaurant,
       getLateOrders: getLateOrders,
-      getHistoryOrders: getHistoryOrders
+      getHistoryOrders: getHistoryOrders,
+      updateAnOrder: updateAnOrder,
+      closeAnOrder: closeAnOrder
     };
 
     return service;
+
+    function closeAnOrder() {
+
+    }
+
+    function updateAnOrder(order) {
+      var deferred = $q.defer();
+      var status = '待处理';
+
+      if (order.status.S === '')
+        order.status.S = status;
+
+      var d = new Date();
+      var n = d.getTime();
+      var dateTime = $filter('date')(n, 'dd-MM-yyyy HH:mm:ss Z');
+
+      var params = {
+        TableName: 'Order-fxmenu',
+        Key: {
+          orderId: {
+            S: order.orderId.S
+          }
+        },
+        UpdateExpression: 'set customerContactNumber = :ccn, deliveryAddress=:da, orderDateTime=:odt, orderItems=:ois, paymentMethod=:pm, lastProcessedDateTime=:lpdt, status=:stat',
+        ExpressionAttributeValues:{
+          ':ccn': {
+            S: order.customerContactNumber.S
+          },
+          ':da': {
+            S: order.deliveryAddress.S
+          },
+          ':odt': {
+            S: order.orderDateTime.S
+          },
+          ':ois': {
+            L: order.orderItems.L
+          },
+          ':pm': {
+            S: order.paymentMethod.S
+          },
+          ':lpdt': {
+            S: dateTime
+          },
+          ':stat': {
+            S: order.status.S
+          }
+        },
+        ReturnValues:'UPDATED_NEW'
+      };
+      var docClient = new AWS.DynamoDB();
+      docClient.updateItem(params, function(err, data) {
+        if (err) {
+          console.log(err);
+          deferred.reject(err);
+        } else {
+          deferred.resolve(data);
+        }
+      });
+
+      return deferred.promise;
+    }
 
     function getHistoryOrders() {
       var docClient = new AWS.DynamoDB();
