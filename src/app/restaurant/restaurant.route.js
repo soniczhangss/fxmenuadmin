@@ -51,6 +51,19 @@
             content: '实时订单'
           }
         }
+      },
+      {
+        state: 'restaurant-history-orders',
+        config: {
+          url: '/restaurant-history-orders',
+          templateUrl: 'src/app/restaurant/restaurant-history-orders.html',
+          controller: 'RestaurantHistoryOrderController',
+          title: '历史订单',
+          settings: {
+            nav: 2,
+            content: '历史订单'
+          }
+        }
       }
     ];
   }

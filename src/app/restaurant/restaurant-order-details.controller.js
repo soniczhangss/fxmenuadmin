@@ -10,7 +10,7 @@
   function RestaurantOrderDetailsController(logger, dataservice, order, $scope, $uibModalInstance) {
     init();
 
-    function init() {console.log(order);
+    function init() {
       if (!angular.isUndefined(order.orderItems)) {
         var orderItems = [];
         angular.forEach(order.orderItems.L, function (value, key) {
@@ -34,7 +34,6 @@
       } else {
         $scope.orderItems = [];
       }
-      console.log($scope.orderItems);
     }
   }
 })();

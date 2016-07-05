@@ -21,7 +21,26 @@
     return service;
 
     function getHistoryOrders() {
-      //
+      var docClient = new AWS.DynamoDB();
+
+      var params = {
+        TableName: 'Order-fxmenu',
+        FilterExpression: '#stat = :proc',
+        ExpressionAttributeNames: {'#stat': 'status'},
+        ExpressionAttributeValues: {':proc': {S:'processed'}}
+      };
+      var deferred = $q.defer();
+
+      docClient.scan(params, function(err, data) {
+        if (err) {
+          deferred.reject(err);
+        } 
+        else {
+          deferred.resolve(data);
+        }
+      });
+
+      return deferred.promise;
     }
 
     function getLateOrders() {
@@ -29,8 +48,9 @@
 
       var params = {
         TableName: 'Order-fxmenu',
-        FilterExpression: 'attribute_not_exists(#stat)',
-        ExpressionAttributeNames: {'#stat': 'status'}
+        FilterExpression: '#stat <> :proc',
+        ExpressionAttributeNames: {'#stat': 'status'},
+        ExpressionAttributeValues: {':proc': {S:'processed'}}
       };
       var deferred = $q.defer();
 
