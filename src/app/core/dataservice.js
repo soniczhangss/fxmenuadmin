@@ -14,16 +14,23 @@
       getRestaurants: getRestaurants,
       updateARestaurant: updateARestaurant,
       addARestaurant: addARestaurant,
-      getOrders: getOrders
+      getLateOrders: getLateOrders,
+      getHistoryOrders: getHistoryOrders
     };
 
     return service;
 
-    function getOrders() {
+    function getHistoryOrders() {
+      //
+    }
+
+    function getLateOrders() {
       var docClient = new AWS.DynamoDB();
 
       var params = {
-        TableName : 'Order-fxmenu'
+        TableName: 'Order-fxmenu',
+        FilterExpression: 'attribute_not_exists(#stat)',
+        ExpressionAttributeNames: {'#stat': 'status'}
       };
       var deferred = $q.defer();
 

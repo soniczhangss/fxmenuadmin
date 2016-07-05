@@ -13,7 +13,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="orderItem in order.orderItems">
+				<tr ng-repeat="orderItem in orderItems">
 					<td>{{ orderItem.name }}</td>
 					<td>{{ orderItem.quantity }}</td>
 					<td>{{ orderItem.price | currency : AU$ }}</td>

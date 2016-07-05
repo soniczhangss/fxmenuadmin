@@ -8,7 +8,7 @@
   RestaurantOrderController.$inject = ['logger', 'dataservice', '$scope', '$uibModal'];
   /* @ngInject */
   function RestaurantOrderController(logger, dataservice, $scope, $uibModal) {
-    dataservice.getOrders().then(
+    dataservice.getLateOrders().then(
       function (result) {
         $scope.orders = result.Items;
       },
@@ -21,7 +21,7 @@
       var modalInstance = $uibModal.open({
         animation: true,
         size: 'lg',
-        controller: 'RestaurantOrderController',
+        controller: 'RestaurantOrderDetailsController',
         templateUrl: 'src/app/restaurant/restaurant-order-modal.html',
         resolve: {
           order: function () {

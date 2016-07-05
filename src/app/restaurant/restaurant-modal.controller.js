@@ -37,7 +37,6 @@
       } else {
         $scope.restaurant.menuItems = [];
       }
-      
     }
     
     $scope.cancel = function () {
