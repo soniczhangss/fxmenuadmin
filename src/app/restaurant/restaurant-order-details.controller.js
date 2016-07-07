@@ -5,9 +5,9 @@
     .module('app.restaurant')
     .controller('RestaurantOrderDetailsController', RestaurantOrderDetailsController);
 
-  RestaurantOrderDetailsController.$inject = ['logger', 'dataservice', 'order', '$scope', '$uibModalInstance'];
+  RestaurantOrderDetailsController.$inject = ['logger', '$state', 'dataservice', 'order', '$scope', '$uibModalInstance'];
   /* @ngInject */
-  function RestaurantOrderDetailsController(logger, dataservice, order, $scope, $uibModalInstance) {
+  function RestaurantOrderDetailsController(logger, $state, dataservice, order, $scope, $uibModalInstance) {
     init();
 
     function init() {
@@ -43,7 +43,8 @@
       }
       dataservice.updateAnOrder(order).then(
         function(result) {
-          console.log(result);
+          $state.go('restaurant-orders', {}, {reload: true});
+          $uibModalInstance.dismiss();
         },
         function (error) {
           console.log(error, error.stack);
@@ -51,7 +52,14 @@
     };
 
     $scope.finish = function() {
-      dataservice.closeAnOrder(order);
+      dataservice.closeAnOrder(order).then(
+        function(result) {
+          $state.go('restaurant-orders', {}, {reload: true});
+          $uibModalInstance.dismiss();
+        },
+        function (error) {
+          console.log(error, error.stack);
+        });
     };
 
     $scope.cancel = function () {

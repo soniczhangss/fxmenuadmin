@@ -5,9 +5,9 @@
     .module('app.restaurant')
     .controller('RestaurantModalController', RestaurantModalController);
 
-  RestaurantModalController.$inject = ['logger', 'dataservice', '$scope', '$uibModalInstance', '$uibModal', 'restaurant', 'fileUploader'];
+  RestaurantModalController.$inject = ['logger', '$state', 'dataservice', '$scope', '$uibModalInstance', '$uibModal', 'restaurant', 'fileUploader'];
   /* @ngInject */
-  function RestaurantModalController(logger, dataservice, $scope, $uibModalInstance, $uibModal, restaurant, fileUploader) {
+  function RestaurantModalController(logger, $state, dataservice, $scope, $uibModalInstance, $uibModal, restaurant, fileUploader) {
 
     init();
 
@@ -57,7 +57,7 @@
     $scope.save = function () {
       dataservice.updateARestaurant($scope.restaurant, $scope.file).then(
         function (result) {
-          console.log(result);
+          $state.go('restaurant-list', {}, {reload: true});
         },
         function (error) {
           console.log(error, error.stack);
@@ -69,7 +69,7 @@
     $scope.delete = function () {
       dataservice.deleteARestaurant($scope.restaurant).then(
         function (result) {
-          console.log(result);
+          $state.go('restaurant-list', {}, {reload: true});
         },
         function (error) {
           console.log(error, error.stack);

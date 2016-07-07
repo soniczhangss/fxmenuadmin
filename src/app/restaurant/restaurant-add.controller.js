@@ -5,9 +5,9 @@
     .module('app.restaurant')
     .controller('RestaurantAddController', RestaurantAddController);
 
-  RestaurantAddController.$inject = ['logger', 'dataservice', '$scope', '$uibModal', 'fileUploader'];
+  RestaurantAddController.$inject = ['logger', '$state', 'dataservice', '$scope', '$uibModal', 'fileUploader'];
   /* @ngInject */
-  function RestaurantAddController(logger, dataservice, $scope, $uibModal, fileUploader) {
+  function RestaurantAddController(logger, $state, dataservice, $scope, $uibModal, fileUploader) {
 
     init();
 
@@ -37,13 +37,12 @@
     $scope.save = function () {
       dataservice.addARestaurant($scope.restaurant, $scope.file).then(
         function (result) {
-          console.log(result);
+          $state.go('restaurant-list');
         },
         function (error) {
           console.log(error, error.stack);
         }
       );
-      // go to state restaurant-list
     };
 
     $scope.newMenuItem = function () {
