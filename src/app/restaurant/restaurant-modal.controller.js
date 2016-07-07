@@ -66,6 +66,18 @@
       $uibModalInstance.close();
     };
 
+    $scope.delete = function () {
+      dataservice.deleteARestaurant($scope.restaurant).then(
+        function (result) {
+          console.log(result);
+        },
+        function (error) {
+          console.log(error, error.stack);
+        }
+      );
+      $uibModalInstance.close();
+    };
+
     $scope.newMenuItem = function () {
       var modalInstance = $uibModal.open({
         animation: true,

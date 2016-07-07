@@ -14,6 +14,7 @@
       getRestaurants: getRestaurants,
       updateARestaurant: updateARestaurant,
       addARestaurant: addARestaurant,
+      deleteARestaurant: deleteARestaurant,
       getLateOrders: getLateOrders,
       getHistoryOrders: getHistoryOrders,
       updateAnOrder: updateAnOrder,
@@ -25,9 +26,6 @@
     function closeAnOrder(order) {
       var deferred = $q.defer();
       var status = 'processed';
-
-      if (!angular.isUndefined(order.status))
-        status = order.status.S;
 
       var d = new Date();
       var n = d.getTime();
@@ -69,7 +67,6 @@
       var docClient = new AWS.DynamoDB();
       docClient.updateItem(params, function(err, data) {
         if (err) {
-          console.log(err);
           deferred.reject(err);
         } else {
           deferred.resolve(data);
@@ -83,8 +80,10 @@
       var deferred = $q.defer();
       var status = '待处理';
 
-      if (!angular.isUndefined(order.status))
-        status = order.status.S;
+      if (!angular.isUndefined(order.status)) {
+        if (!angular.isUndefined(order.status.S))
+          status = order.status.S;
+      }
 
       var d = new Date();
       var n = d.getTime();
@@ -201,6 +200,31 @@
           deferred.resolve(data);
         }
       });
+      return deferred.promise;
+    }
+
+    function deleteARestaurant(restaurant) {
+      var docClient = new AWS.DynamoDB();
+
+      var params = {
+        TableName : 'Restaurant-fxmenu',
+        Key: {
+          restaurantId: {
+            S: restaurant.id
+          }
+        }
+      };
+      var deferred = $q.defer();
+
+      docClient.deleteItem(params, function(err, data) {
+        if (err) {
+          deferred.reject(err);
+        } 
+        else {
+          deferred.resolve(data);
+        }
+      });
+
       return deferred.promise;
     }
 
