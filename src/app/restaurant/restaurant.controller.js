@@ -13,7 +13,7 @@
         $scope.restaurants = result.Items;
       },
       function (error) {
-        console.log(error.statusText);
+        logger.error(error.statusText, error.stack, '餐厅获取失败');
       }
     );
 

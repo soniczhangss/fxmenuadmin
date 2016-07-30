@@ -28,7 +28,7 @@
           $scope.dish.thumbnailObj = $scope.file;
         },
         function (error) {
-          console.log(error, error.stack);
+          logger.error(error, error.stack, '图片获取失败');
         }
       );
     };

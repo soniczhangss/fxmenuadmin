@@ -12,11 +12,63 @@
 		body { padding-top: 70px; }
 		table tbody tr:hover { background-color: LightGrey; cursor: pointer; }
 		.dropdown-menu li a { cursor: default; }
+		.ngplus-overlay-background {
+			top: 0px;
+			left: 0px;
+			padding-left: 100px;
+			position: absolute;
+			z-index: 10000;
+			height: 100%;
+			width: 100%;
+			background-color: #808080;
+			opacity: 0.2;
+		}
+
+		.ngplus-overlay-content {
+			position: absolute;
+			/*border: 1px solid #000;*/
+			/*background-color: #fff;*/
+			font-weight: bold;
+			height: 100px;
+			width: 300px;
+			height: 15em;
+			width: 20em;
+			z-index: 10000;
+			text-align: center;
+		}
+
+		/*Optional Animations*/
+		.dissolve-animation.ng-hide-remove,
+		.dissolve-animation.ng-hide-add {
+			display: inline !important;
+			-webkit-transition: 0.5s linear all;
+			-moz-transition: 0.5s linear all;
+			-o-transition: 0.5s linear all;
+			transition: 0.5s linear all;
+		}
+
+		.dissolve-animation.ng-hide-remove.ng-hide-remove-active,
+		.dissolve-animation.ng-hide-add {
+			opacity: 1;
+		}
+
+		.dissolve-animation.ng-hide-add.ng-hide-add-active,
+		.dissolve-animation.ng-hide-remove {
+		    opacity: 0;
+		}
 	</style>
 </head>
 <body>
 	<div ng-include="'src/app/layout/shell.html'"></div>
-	<div ng-show="showSplash">Loading...</div>
+	<div ng-show="showSplash">
+		<div ngplus-overlay
+		     ngplus-overlay-delay-in="50"
+		     ngplus-overlay-delay-out="700"
+		     ngplus-overlay-animation="dissolve-animation">
+		    <img src="src/images/busy.gif"/>
+		 	  Optional loading message or HTML content goes here
+		</div>
+	</div>
 
 	<script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.12.min.js"></script>
 	<script src="bower_components/angular/angular.js"></script>

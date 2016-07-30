@@ -47,7 +47,7 @@
           $uibModalInstance.dismiss();
         },
         function (error) {
-          console.log(error, error.stack);
+          logger.error(error, error.stack, '订单状态更新失败');
         });
     };
 
@@ -58,7 +58,7 @@
           $uibModalInstance.dismiss();
         },
         function (error) {
-          console.log(error, error.stack);
+          logger.error(error, error.stack, '订单完成失败');
         });
     };
 

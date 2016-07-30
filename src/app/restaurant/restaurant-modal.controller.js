@@ -49,7 +49,7 @@
           $scope.imageSrc = result;
         },
         function (error) {
-          console.log(error, error.stack);
+          logger.error(error, error.stack, '图片获取失败');
         }
       );
     };
@@ -60,7 +60,7 @@
           $state.go('restaurant-list', {}, {reload: true});
         },
         function (error) {
-          console.log(error, error.stack);
+          logger.error(error, error.stack, '餐厅更新失败');
         }
       );
       $uibModalInstance.close();
@@ -72,7 +72,7 @@
           $state.go('restaurant-list', {}, {reload: true});
         },
         function (error) {
-          console.log(error, error.stack);
+          logger.error(error, error.stack, '餐厅删除失败');
         }
       );
       $uibModalInstance.close();

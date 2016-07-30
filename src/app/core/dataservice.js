@@ -125,7 +125,7 @@
       var docClient = new AWS.DynamoDB();
       docClient.updateItem(params, function(err, data) {
         if (err) {
-          console.log(err);
+          logger.error(err);
           deferred.reject(err);
         } else {
           deferred.resolve(data);
@@ -254,10 +254,10 @@
         var restaurantImgFileName = randomStringGenerator.getRandomString();
         uploadAnImage(restaurantImgFile, restaurantImgFileName).then(
           function (result) {
-            console.log(result);
+            logger.info('上传餐厅图片成功', result);
           },
           function (error) {
-            console.log(error, error.stack);
+            logger.error(error, error.stack, '上传餐厅图片失败');
           }
         );
         restaurant.imageSrc = imgRepository + restaurantImgFileName;
@@ -269,10 +269,10 @@
           var dishImgFileName = randomStringGenerator.getRandomString();
           uploadAnImage(value.thumbnailObj, dishImgFileName).then(
             function (result) {
-              console.log(result);
+              logger.info('上传' + dishImgFileName + '成功', result);
             },
             function (error) {
-              console.log(error, error.stack);
+              logger.error(error, error.stack, '上传' + dishImgFileName + '成功');
             }
           );
           value.dishThumbnail = imgRepository + dishImgFileName;
@@ -353,19 +353,7 @@
     }
 
     function addARestaurant(restaurant, restaurantImgFile) {
-      var deferred = $q.defer();
-      if (!angular.isUndefined(restaurantImgFile)) {
-        var restaurantImgFileName = randomStringGenerator.getRandomString();
-        uploadAnImage(restaurantImgFile, restaurantImgFileName).then(
-          function (result) {
-            console.log(result);
-          },
-          function (error) {
-            console.log(error, error.stack);
-          }
-        );
-        restaurant.imageSrc = imgRepository + restaurantImgFileName;
-      }
+      var deferred = $q.defer();      
       var items = [];
       angular.forEach(restaurant.menuItems, function (value, key) {
         
@@ -373,10 +361,10 @@
           var dishImgFileName = randomStringGenerator.getRandomString();
           uploadAnImage(value.thumbnailObj, dishImgFileName).then(
             function (result) {
-              console.log(result);
+              logger.info('上传' + dishImgFileName + '成功', result);
             },
             function (error) {
-              console.log(error, error.stack);
+              logger.error(error, error.stack, '上传' + dishImgFileName + '成功');
             }
           );
           value.dishThumbnail = imgRepository + dishImgFileName;
@@ -429,14 +417,24 @@
           restaurantName: {
             S: restaurant.name
           },
-          restaurantThumbnail: {
-            S: restaurant.imageSrc
-          },
           restaurantMenu: {
             L: menuItemsJSON
           }
         }
       };
+
+      if (!angular.isUndefined(restaurantImgFile)) {
+        var restaurantImgFileName = randomStringGenerator.getRandomString();
+        uploadAnImage(restaurantImgFile, restaurantImgFileName).then(
+          function (result) {
+            logger.info('上传餐厅图片成功', result);
+          },
+          function (error) {
+            logger.error(error, error.stack, '上传餐厅图片失败');
+          }
+        );
+        params.Item.restaurantThumbnail.S = imgRepository + restaurantImgFileName;
+      }
       docClient.putItem(params, function(err, data) {
         if (err) {
           deferred.reject(err);

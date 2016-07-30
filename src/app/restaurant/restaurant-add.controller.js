@@ -29,7 +29,7 @@
           $scope.imageSrc = result;
         },
         function (error) {
-          console.log(error, error.stack);
+          logger.error(error, error.stack, '图片获取失败');
         }
       );
     };
@@ -40,7 +40,7 @@
           $state.go('restaurant-list');
         },
         function (error) {
-          console.log(error, error.stack);
+          logger.error(error, error.stack, '餐厅保存失败');
         }
       );
     };

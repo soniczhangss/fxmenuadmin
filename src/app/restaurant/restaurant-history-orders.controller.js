@@ -13,7 +13,7 @@
         $scope.orders = result.Items;
       },
       function (error) {
-        console.log(error.statusText);
+        logger.error(error.statusText, error.stack, '历史订单获取失败');
       }
     );
 
