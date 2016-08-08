@@ -1,0 +1,80 @@
+<div class="row">
+	<div class="col-md-1"></div>
+	<div class="col-md-10">
+		<div class="panel panel-default">
+			<div class="panel-heading">餐厅图片</div>
+			<div class="panel-body">
+				<!-- <a href class="thumbnail cropArea" onclick="document.getElementById('file-chooser').click(); return false;">
+					<div ng-if="imageSrc"><img ng-src="{{ imageSrc }}" alt="点击选择图片"></div>
+					<span ng-if="!imageSrc"><i class="glyphicon glyphicon-plus"></i></span>
+				</a>
+				<input accept="image/*" type="file" id="file-chooser" style="visibility: hidden; width: 1px; height: 1px" file-select="onFileSelect($files)"/> -->
+				<div flow-init>
+					<input type="file" flow-btn />
+					<img flow-img="$flow.files[0]" />
+				</div>
+			</div>
+		</div>
+
+		<div class="input-group">
+			<span class="input-group-addon" id="restaurant-address">餐厅名称</span>
+			<input type="text" class="form-control" ng-model="restaurant.name" aria-describedby="restaurant-name">
+		</div>
+
+		<br>
+
+		<div class="input-group">
+			<span class="input-group-addon" id="restaurant-description">餐厅描述</span>
+			<input type="text" class="form-control" ng-model="restaurant.description" aria-describedby="restaurant-description">
+		</div>
+
+		<br>
+		
+		<div class="input-group">
+			<span class="input-group-addon" id="restaurant-address">地址</span>
+			<input type="text" class="form-control" ng-model="restaurant.address" aria-describedby="restaurant-address">
+		</div>
+
+		<br>
+
+		<div class="input-group">
+			<span class="input-group-addon" id="restaurant-contactNum">联系电话</span>
+			<input type="text" class="form-control" ng-model="restaurant.contactNum" aria-describedby="restaurant-contactNum">
+		</div>
+
+		<br>
+
+		<div class="input-group">
+			<span class="input-group-addon" id="restaurant-contactNum">特色菜系</span>
+			<input type="text" class="form-control" ng-model="restaurant.style" aria-describedby="restaurant-style">
+		</div>
+
+		<br>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">餐厅菜单<button type="button" class="btn btn-xs btn-success pull-right" ng-click="newMenuItem()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加菜品</button></div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>图片</th>
+						<th>名称</th>
+						<th>类别</th>
+						<th>价格</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="dish in restaurant.menuItems">
+						<td class="thumbnail"><img ng-src="{{ dish.dishThumbnail }}" alt="Dish thumbnail"></td>
+						<td>{{ dish.name }}</td>
+						<td>{{ dish.category }}</td>
+						<td>{{ dish.price | currency : AU$ }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="col-md-1"></div>
+</div>
+<div class="row">
+	<div class="col-md-2 col-md-offset-10"><button class="btn btn-success" type="button" ng-click="save()">Save</button></div>
+</div>
